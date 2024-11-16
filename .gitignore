@@ -1,3 +1,4 @@
 law/
 .ipynb_checkpoints/
 hide.
+__pycache__/
