@@ -22,5 +22,9 @@ COPY faiss_index_law /app/faiss_index_law
 # Expose the port FastAPI will run on
 EXPOSE 8000
 
+# Set environment variables (ensure you set these in Render's dashboard as well)
+ENV GEMINI_API_KEY=your_gemini_api_key
+ENV HF_API_KEY=your_hugging_face_api_key
+
 # Start FastAPI with Uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
