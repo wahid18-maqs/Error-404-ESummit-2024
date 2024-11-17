@@ -1,31 +1,22 @@
-# Use a Python version compatible with your dependencies
-FROM python:3.10-slim
+# Use a lightweight Python base image
+FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set a working directory inside the container
 WORKDIR /app
 
-# Copy only requirements.txt to leverage Docker's caching
+# Install dependencies
 COPY requirements.txt /app/
-
-# Install system dependencies required for some Python packages
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libatlas-base-dev \
-    python3-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
-COPY . /app
+# Copy the application code
+COPY . /app/
 
-# Expose the port the app runs on
+# Expose the port FastAPI will run on
 EXPOSE 8000
 
-# Environment variables for secrets
-ENV GEMINI_API_KEY=${GEMINI_API_KEY}
-ENV HF_API_KEY=${HF_API_KEY}
+# Set environment variables (ensure you set these in Render's dashboard as well)
+ENV GEMINI_API_KEY=your_gemini_api_key
+ENV HF_API_KEY=your_hugging_face_api_key
 
-# Define the command to run your app using uvicorn
+# Start FastAPI with Uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
