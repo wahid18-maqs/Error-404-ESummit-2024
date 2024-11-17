@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,7 +10,10 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from hide import gemini_api, hf_api as inference_api_key
+
+# Fetch API keys from environment variables
+gemini_api = os.getenv("GEMINI_API_KEY")
+inference_api_key = os.getenv("HF_API_KEY")
 
 # Initialize FastAPI app
 app = FastAPI()
