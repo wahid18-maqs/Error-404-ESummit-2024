@@ -1,5 +1,4 @@
 law/
 .ipynb_checkpoints/
-.env
-hide.py
+
 __pycache__/
