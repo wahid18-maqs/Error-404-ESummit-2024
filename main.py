@@ -11,23 +11,23 @@ from langchain.chains import create_retrieval_chain
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
-# Fetch API keys from environment variables
+
 gemini_api = os.getenv("GEMINI_API_KEY")
 inference_api_key = os.getenv("HF_API_KEY")
 
-# Initialize FastAPI app
+
 app = FastAPI()
 
-# Add CORS middleware
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust this to specific origins for better security
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Chat history and retrieval chain initialization
+
 chat_history = []
 
 def create_db():
@@ -82,7 +82,7 @@ def process_chat(chain, question, chat_history):
 vectorStore = create_db()
 chain = create_chain(vectorStore)
 
-# Pydantic model for API request/response
+# Pydantic model 
 class ChatRequest(BaseModel):
     question: str
 
@@ -102,7 +102,7 @@ def chat(request: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
-# Run the application (optional for Jupyter Notebook environments)
+# Run the application
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

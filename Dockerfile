@@ -4,7 +4,7 @@ FROM python:3.9-slim
 # Set a working directory inside the container
 WORKDIR /app
 
-# Install system dependencies (useful for certain Python packages)
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc libpq-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -16,15 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project directory to the container
 COPY . /app/
 
-# Ensure the FAISS index file is included
-COPY faiss_index_law /app/faiss_index_law
-
 # Expose the port FastAPI will run on
 EXPOSE 8000
-
-# Set environment variables (ensure you set these in Render's dashboard as well)
-ENV GEMINI_API_KEY=AIzaSyBLzFz9Z-uqkje2uvFFHzCmsvyMH-BzrJY
-ENV HF_API_KEY=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
 
 # Start FastAPI with Uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
